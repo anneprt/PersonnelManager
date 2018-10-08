@@ -33,36 +33,41 @@ namespace PersonnelManager.Business.Services
 
         public void EnregistrerCadre(Cadre cadre)
         {
-			if (cadre == null)
-			{
-				throw new InvalidOperationException();
-			}
-			if (cadre.DateEmbauche.Year <= 1920)
-			{
-				throw new BusinessException("La date d'embauche doit être > 1920");
-			}
+            if (cadre == null)
+            {
+                throw new InvalidOperationException();
+            }
+            if (cadre.DateEmbauche.Year <= 1920)
+            {
+                throw new BusinessException("La date d'embauche doit être > 1920");
+            }
+            if (cadre.DateEmbauche > DateTime.Now.AddMonths(3))
+            {
+                throw new BusinessException("La date d'embauche doit être inférieure à 3 mois à partir d'aujourdhui");
 
-			this.dataEmploye.EnregistrerCadre(cadre);
+            }
+
+            this.dataEmploye.EnregistrerCadre(cadre);
         }
 
         public void EnregistrerOuvrier(Ouvrier ouvrier)
         {
-			if (ouvrier == null)
-			{
-				throw new InvalidOperationException();
-			}
+            if (ouvrier == null)
+            {
+                throw new InvalidOperationException();
+            }
 
-			if (ouvrier.TauxHoraire <= 0)
+            if (ouvrier.TauxHoraire <= 0)
             {
                 throw new BusinessException("Taux horaire invalide");
             }
 
-			if (ouvrier.DateEmbauche.Year <= 1920)
-			{
-				throw new BusinessException("La date d'embauche doit être > 1920");
-			}
+            if (ouvrier.DateEmbauche.Year <= 1920)
+            {
+                throw new BusinessException("La date d'embauche doit être > 1920");
+            }
 
-			this.dataEmploye.EnregistrerOuvrier(ouvrier);
+            this.dataEmploye.EnregistrerOuvrier(ouvrier);
         }
 
         public IEnumerable<Employe> GetListeEmployes()
