@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using PersonnelManager.Business.Exceptions;
 using PersonnelManager.Dal.Data;
 using PersonnelManager.Dal.Entites;
@@ -54,6 +55,14 @@ namespace PersonnelManager.Business.Services
 
             }
 
+            Regex regex = new Regex(@"[-]");
+            Match match = regex.Match(cadre.Nom + cadre.Prenom);
+            if (match.Success)
+            {
+                throw new BusinessException("Entrée invalide caractères spéciaux interdits");
+            }
+
+
             this.dataEmploye.EnregistrerCadre(cadre);
         }
 
@@ -78,6 +87,13 @@ namespace PersonnelManager.Business.Services
             {
                 throw new BusinessException("La date d'embauche doit être inférieure à 3 mois à partir d'aujourdhui");
 
+            }
+
+            Regex regex = new Regex(@"[-]");
+            Match match = regex.Match(ouvrier.Nom + ouvrier.Prenom);
+            if (match.Success)
+            {
+                throw new BusinessException("Entrée invalide caractères spéciaux interdits");
             }
 
             this.dataEmploye.EnregistrerOuvrier(ouvrier);

@@ -134,13 +134,47 @@ namespace PersonnelManager.Business.Tests
         [TestMethod]
         public void InterdireCaracteresSpeciauxDansNomEtPrenomCadre()
         {
-            Assert.Fail();
+            var fauxDataEmploye = new Mock<IDataEmploye>();
+            var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
+
+            var cadre = new Cadre
+            {
+                Id = 1,
+                Nom = "Ali-Baba",
+                Prenom = "To-to",
+                DateEmbauche = DateTime.Now,
+                SalaireMensuel = 2050
+
+            };
+            var exception = Assert.ThrowsException<BusinessException>(() =>
+            {
+                serviceEmploye.EnregistrerCadre(cadre);
+                
+            });
+            Assert.AreEqual("Entrée invalide caractères spéciaux interdits", exception.Message);
         }
 
         [TestMethod]
         public void InterdireCaracteresSpeciauxDansNomEtPrenomOuvrier()
         {
-            Assert.Fail();
+            var fauxDataEmploye = new Mock<IDataEmploye>();
+            var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
+
+            var ouvrier = new Ouvrier
+            {
+                Id = 1,
+                Nom = "Ali-Baba",
+                Prenom = "To-to",
+                DateEmbauche = DateTime.Now,
+                TauxHoraire = 15
+
+            };
+            var exception = Assert.ThrowsException<BusinessException>(() =>
+            {
+                serviceEmploye.EnregistrerOuvrier(ouvrier);
+
+            });
+            Assert.AreEqual("Entrée invalide caractères spéciaux interdits", exception.Message);
         }
 
         [TestMethod]
