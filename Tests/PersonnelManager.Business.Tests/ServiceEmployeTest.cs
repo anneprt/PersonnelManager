@@ -27,7 +27,7 @@ namespace PersonnelManager.Business.Tests
 
 			fauxDataEmploye.Setup(x => x.EnregistrerOuvrier(It.IsAny<Ouvrier>()));
 
-			var serviceEmploye = new ServiceEmploye(new DbDataEmploye());
+			var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
 			var ouvrier = new Ouvrier
 			{
 				Nom = "Dupont",
