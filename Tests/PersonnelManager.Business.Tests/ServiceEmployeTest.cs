@@ -62,28 +62,73 @@ namespace PersonnelManager.Business.Tests
               {
                   serviceEmploye.EnregistrerCadre(cadre);
               });
-            Assert.AreEqual("La date d'embauche doit être inférieure à 3 mois à partir d'aujourdhui",exception.Message);
-
-
+            Assert.AreEqual("La date d'embauche doit être inférieure à 3 mois à partir d'aujourdhui", exception.Message);
 
         }
 
         [TestMethod]
         public void DateEmbaucheOuvrierAnterieureAujourdhuiPlus3Mois()
         {
-            Assert.Fail();
+            var fauxDataEmploye = new Mock<IDataEmploye>();
+            var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
+
+            var ouvrier = new Ouvrier
+            {
+                Nom = "Lucky",
+                Prenom = "Luke",
+                DateEmbauche = new DateTime(2020, 07, 30),
+                TauxHoraire = 15
+            };
+            var exception = Assert.ThrowsException<BusinessException>(() =>
+            {
+                serviceEmploye.EnregistrerOuvrier(ouvrier);
+            });
+            Assert.AreEqual("La date d'embauche doit être inférieure à 3 mois à partir d'aujourdhui", exception.Message);
+
         }
 
         [TestMethod]
         public void SalaireCadrePositif()
         {
-            Assert.Fail();
+            var fauxDataEmploye = new Mock<IDataEmploye>();
+            var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
+
+            var cadre = new Cadre
+            {
+                Id = 1,
+                Nom = "Marty",
+                Prenom = "McFly",
+                DateEmbauche = new DateTime(2020, 07, 30),
+                SalaireMensuel = -2050
+            };
+            var exception = Assert.ThrowsException<BusinessException>(() =>
+            {
+                serviceEmploye.EnregistrerCadre(cadre);
+                serviceEmploye.GetSalaireCadre(1,DateTime.Parse("01/08/2018"));
+            });
+            Assert.AreEqual("Salaire mensuel invalide", exception.Message);
         }
 
         [TestMethod]
         public void TauxHoraireOuvrierPositif()
         {
-            Assert.Fail();
+            var fauxDataEmploye = new Mock<IDataEmploye>();
+            var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
+
+            var ouvrier = new Ouvrier
+            {
+                Id = 1,
+                Nom = "Doc",
+                Prenom = "Brown",
+                DateEmbauche = new DateTime(2020, 07, 30),
+                TauxHoraire = -15
+            };
+            var exception = Assert.ThrowsException<BusinessException>(() =>
+            {
+                serviceEmploye.EnregistrerOuvrier(ouvrier);
+                serviceEmploye.GetSalaireOuvrier(1, DateTime.Parse("01/08/2018"));
+            });
+            Assert.AreEqual("Taux horaire invalide", exception.Message);
         }
 
         [TestMethod]

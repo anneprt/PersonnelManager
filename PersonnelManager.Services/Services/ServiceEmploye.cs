@@ -37,10 +37,17 @@ namespace PersonnelManager.Business.Services
             {
                 throw new InvalidOperationException();
             }
+
+            if(cadre.SalaireMensuel <= 0)
+            {
+                throw new BusinessException("Salaire mensuel invalide");
+            }
+
             if (cadre.DateEmbauche.Year <= 1920)
             {
                 throw new BusinessException("La date d'embauche doit être > 1920");
             }
+
             if (cadre.DateEmbauche > DateTime.Now.AddMonths(3))
             {
                 throw new BusinessException("La date d'embauche doit être inférieure à 3 mois à partir d'aujourdhui");
@@ -65,6 +72,12 @@ namespace PersonnelManager.Business.Services
             if (ouvrier.DateEmbauche.Year <= 1920)
             {
                 throw new BusinessException("La date d'embauche doit être > 1920");
+            }
+
+            if (ouvrier.DateEmbauche > DateTime.Now.AddMonths(3))
+            {
+                throw new BusinessException("La date d'embauche doit être inférieure à 3 mois à partir d'aujourdhui");
+
             }
 
             this.dataEmploye.EnregistrerOuvrier(ouvrier);
