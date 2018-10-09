@@ -19,24 +19,36 @@ else
                 </div>
                 <div class="card-block">
                     <div class="card-title">
-                        <div class="clr-form-control clr-row">
-                            <label for="Nom" class="clr-control-label clr-col-xs-12 clr-col-md-2">Nom</label>
-                            <div class="clr-control-container clr-col-xs-12 clr-col-md-10">
-                                <div class="clr-input-wrapper">
-                                    <input type="text" id="Nom" name="Nom" class="clr-input" value="@Model.Nom" required>
-                                    <clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clr-form-control clr-row">
-                            <label for="Prenom" class="clr-control-label clr-col-xs-12 clr-col-md-2">Prénom</label>
-                            <div class="clr-control-container clr-col-xs-12 clr-col-md-10">
-                                <div class="clr-input-wrapper">
-                                    <input type="text" id="Prenom" name="Prenom" class="clr-input" value="@Model.Prenom" required>
-                                    <clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
-                                </div>
-                            </div>
-                        </div>
+						<div class="clr-form-control clr-row">
+							<label for="Nom" class="clr-control-label">Nom</label>
+							<div class="clr-control-container">
+								<div class="clr-input-wrapper">
+									<input type="text"
+										   id="Nom"
+										   name="Nom"
+										   class="clr-input"
+										   maxlength="50"
+										   value="@Model.Nom"
+										   required>
+									<clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
+								</div>
+							</div>
+						</div>
+						<div class="clr-form-control clr-row">
+							<label for="Prenom" class="clr-control-label">Prénom</label>
+							<div class="clr-control-container">
+								<div class="clr-input-wrapper">
+									<input type="text"
+										   id="Prenom"
+										   name="Prenom"
+										   class="clr-input"
+										   maxlength="50"
+										   value="@Model.Prenom"
+										   required>
+									<clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
+								</div>
+							</div>
+						</div>
                     </div>
                 </div>
             </div>
@@ -48,24 +60,32 @@ else
                 </div>
                 <div class="card-block">
                     <div class="card-text">
-                        <div class="clr-form-control clr-row">
-                            <label for="DateEmbauche" class="clr-control-label clr-col-xs-12 clr-col-md-2">Date d'embauche</label>
-                            <div class="clr-control-container clr-col-xs-12 clr-col-md-10">
-                                <div class="clr-input-wrapper">
-                                    <input type="date" id="DateEmbauche" name="DateEmbauche" class="clr-input" value="@(Model.DateEmbauche?.ToString("yyyy-MM-dd"))" required>
-                                    <clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clr-form-control clr-row">
-                            <label for="SalaireMensuel" class="clr-control-label clr-col-xs-12 clr-col-md-2">Salaire mensuel</label>
-                            <div class="clr-control-container clr-col-xs-12 clr-col-md-10">
-                                <div class="clr-input-wrapper">
-                                    <input type="number" id="SalaireMensuel" name="SalaireMensuel" class="clr-input" value="@Model.SalaireMensuel.ToString().Replace(",",".")" step="0.01" required>
-                                    <clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
-                                </div>
-                            </div>
-                        </div>
+						<div class="clr-form-control clr-row">
+							<label for="DateEmbauche" class="clr-control-label">Date d'embauche</label>
+							<div class="clr-control-container">
+								<div class="clr-input-wrapper">
+									<input type="date" id="DateEmbauche" name="DateEmbauche" class="clr-input" value="@(Model.DateEmbauche?.ToString("yyyy-MM-dd"))" required>
+									<clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
+								</div>
+							</div>
+						</div>
+						<div class="clr-form-control clr-row">
+							<label for="SalaireMensuel" class="clr-control-label">Salaire mensuel</label>
+							<div class="clr-control-container">
+								<div class="clr-input-wrapper">
+									<input type="number"
+										   id="SalaireMensuel"
+										   name="SalaireMensuel"
+										   class="clr-input"
+										   min="0"
+										   max="999999"
+										   value="@Model.SalaireMensuel.ToString().Replace(",",".")"
+										   step="0.01"
+										   required>
+									<clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
+								</div>
+							</div>
+						</div>
                     </div>
                 </div>
             </div>

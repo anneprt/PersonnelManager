@@ -105,7 +105,7 @@ namespace PersonnelManager.Controllers
                 }
             }
 
-            return this.View("EditionOuvrier", viewModel);
+            return this.View("EditionCadre", viewModel);
         }
 
         private ActionResult EnregistrerOuvrier(EditionOuvrierViewModel viewModel)

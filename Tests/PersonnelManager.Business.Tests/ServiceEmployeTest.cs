@@ -140,8 +140,8 @@ namespace PersonnelManager.Business.Tests
             var cadre = new Cadre
             {
                 Id = 1,
-                Nom = "Ali-Baba",
-                Prenom = "To-to",
+                Nom = "Du/pont",
+                Prenom = "Gér@rd",
                 DateEmbauche = DateTime.Now,
                 SalaireMensuel = 2050
 

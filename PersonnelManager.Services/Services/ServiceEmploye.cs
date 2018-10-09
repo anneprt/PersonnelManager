@@ -55,7 +55,7 @@ namespace PersonnelManager.Business.Services
 
             }
 
-            Regex regex = new Regex(@"[-]");
+            Regex regex = new Regex(@"^[A-Z][a-z\D\-\'][^$@#^%§!\p{P}\*""]");
             Match match = regex.Match(cadre.Nom + cadre.Prenom);
             if (match.Success)
             {
