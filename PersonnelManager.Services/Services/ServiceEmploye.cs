@@ -55,9 +55,9 @@ namespace PersonnelManager.Business.Services
 
             }
 
-            Regex regex = new Regex(@"^[A-Z][a-z\D\-\'][^$@#^%§!\p{P}\*""]");
+            Regex regex = new Regex(@"^[A-Z][a-z\D\-\'][^$@#^%§!\p{P}\*""]+$");
             Match match = regex.Match(cadre.Nom + cadre.Prenom);
-            if (match.Success)
+            if (!match.Success)
             {
                 throw new BusinessException("Entrée invalide caractères spéciaux interdits");
             }
@@ -89,7 +89,7 @@ namespace PersonnelManager.Business.Services
 
             }
 
-            Regex regex = new Regex(@"[-]");
+            Regex regex = new Regex(@"^[A-Z][a-z\D\-\'][^$@#^%§!\p{P}\*""]+$");
             Match match = regex.Match(ouvrier.Nom + ouvrier.Prenom);
             if (match.Success)
             {

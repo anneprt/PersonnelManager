@@ -49,6 +49,9 @@ namespace PersonnelManager.Business.Tests
         public void DateEmbaucheCadreAnterieureAujourdhuiPlus3Mois()
         {
             var fauxDataEmploye = new Mock<IDataEmploye>();
+
+            fauxDataEmploye.Setup(x => x.EnregistrerCadre(It.IsAny<Cadre>()));
+
             var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
 
             var cadre = new Cadre
@@ -70,6 +73,9 @@ namespace PersonnelManager.Business.Tests
         public void DateEmbaucheOuvrierAnterieureAujourdhuiPlus3Mois()
         {
             var fauxDataEmploye = new Mock<IDataEmploye>();
+
+            fauxDataEmploye.Setup(x => x.EnregistrerOuvrier(It.IsAny<Ouvrier>()));
+
             var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
 
             var ouvrier = new Ouvrier
@@ -87,41 +93,50 @@ namespace PersonnelManager.Business.Tests
 
         }
 
-        [TestMethod]
-        public void SalaireCadrePositif()
+        [DataTestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        public void SalaireCadrePositif(int salaire)
         {
             var fauxDataEmploye = new Mock<IDataEmploye>();
+
+            fauxDataEmploye.Setup(x => x.EnregistrerCadre(It.IsAny<Cadre>()));
+
             var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
 
             var cadre = new Cadre
             {
-                Id = 1,
+
                 Nom = "Marty",
                 Prenom = "McFly",
-                DateEmbauche = new DateTime(2020, 07, 30),
-                SalaireMensuel = -2050
+                DateEmbauche = DateTime.Today,
+                SalaireMensuel = salaire
             };
             var exception = Assert.ThrowsException<BusinessException>(() =>
             {
                 serviceEmploye.EnregistrerCadre(cadre);
-                serviceEmploye.GetSalaireCadre(1,DateTime.Parse("01/08/2018"));
+                serviceEmploye.GetSalaireCadre(1, DateTime.Parse("01/08/2018"));
             });
             Assert.AreEqual("Salaire mensuel invalide", exception.Message);
         }
 
-        [TestMethod]
-        public void TauxHoraireOuvrierPositif()
+        [DataTestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        public void TauxHoraireOuvrierPositif(int tauxHoraire)
         {
             var fauxDataEmploye = new Mock<IDataEmploye>();
+
+            fauxDataEmploye.Setup(x => x.EnregistrerOuvrier(It.IsAny<Ouvrier>()));
+
             var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
 
             var ouvrier = new Ouvrier
             {
-                Id = 1,
                 Nom = "Doc",
                 Prenom = "Brown",
-                DateEmbauche = new DateTime(2020, 07, 30),
-                TauxHoraire = -15
+                DateEmbauche =DateTime.Today,
+                TauxHoraire = tauxHoraire
             };
             var exception = Assert.ThrowsException<BusinessException>(() =>
             {
@@ -131,50 +146,72 @@ namespace PersonnelManager.Business.Tests
             Assert.AreEqual("Taux horaire invalide", exception.Message);
         }
 
-        [TestMethod]
-        public void InterdireCaracteresSpeciauxDansNomEtPrenomCadre()
+        [DataTestMethod]
+        [DataRow("DUPONT", "Gérard", true)]
+        [DataRow("DE-LATTREILLE", "Jean-Philippe", true)]
+        [DataRow("DUPONT", "François", true)]
+        [DataRow("DUPONT3", "Jean", false)]
+        [DataRow("DUPONT", "F@bien", false)]
+        public void InterdireCaracteresSpeciauxDansNomEtPrenomCadre(string nom, string prenom, bool estValide)
         {
             var fauxDataEmploye = new Mock<IDataEmploye>();
             var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
 
             var cadre = new Cadre
             {
-                Id = 1,
-                Nom = "Du/pont",
-                Prenom = "Gér@rd",
-                DateEmbauche = DateTime.Now,
-                SalaireMensuel = 2050
 
+                Nom = nom,
+                Prenom = prenom,
+                DateEmbauche = DateTime.Today,
+                SalaireMensuel = 2050
             };
-            var exception = Assert.ThrowsException<BusinessException>(() =>
+
+            if (!estValide)
+            {
+                var exception = Assert.ThrowsException<BusinessException>(
+                    () => serviceEmploye.EnregistrerCadre(cadre));
+                Assert.AreEqual("Entrée invalide caractères spéciaux interdits",
+                    exception.Message);
+            }
+            else
             {
                 serviceEmploye.EnregistrerCadre(cadre);
-                
-            });
-            Assert.AreEqual("Entrée invalide caractères spéciaux interdits", exception.Message);
+            }
+
         }
 
-        [TestMethod]
-        public void InterdireCaracteresSpeciauxDansNomEtPrenomOuvrier()
+        [DataTestMethod]
+        [DataRow("DUPONT", "Gérard", true)]
+        [DataRow("DE-LATTREILLE", "Jean-Philippe", true)]
+        [DataRow("DUPONT", "François", true)]
+        [DataRow("DUPONT3", "Jean", false)]
+        [DataRow("DUPONT", "F@bien", false)]
+        public void InterdireCaracteresSpeciauxDansNomEtPrenomOuvrier(string nom, string prenom, bool estValide)
         {
             var fauxDataEmploye = new Mock<IDataEmploye>();
             var serviceEmploye = new ServiceEmploye(fauxDataEmploye.Object);
 
             var ouvrier = new Ouvrier
             {
-                Id = 1,
-                Nom = "Ali-Baba",
-                Prenom = "To-to",
-                DateEmbauche = DateTime.Now,
+
+                Nom = nom,
+                Prenom = prenom,
+                DateEmbauche = DateTime.Today,
                 TauxHoraire = 15
 
             };
-            var exception = Assert.ThrowsException<BusinessException>(() =>
+
+            if (!estValide)
+            {
+                var exception = Assert.ThrowsException<BusinessException>(
+                    () => serviceEmploye.EnregistrerOuvrier(ouvrier));
+                Assert.AreEqual("Entrée invalide caractères spéciaux interdits",
+                    exception.Message);
+            }
+            else
             {
                 serviceEmploye.EnregistrerOuvrier(ouvrier);
-
-            });
-            Assert.AreEqual("Entrée invalide caractères spéciaux interdits", exception.Message);
+            }
         }
 
         [TestMethod]
